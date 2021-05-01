@@ -1,0 +1,27 @@
+BR       main
+limit:   .EQUATE 75          ;constant
+num:     .EQUATE 0           ;local variable
+num2:    .EQUATE 25          ;25
+
+main:    SUBSP   2,i              ;push #num  
+         LDWA    num,d            ;scanf ("%d", &num)
+         BREQ    endWh            ;if input is zero then stop 
+         ADDA    num2,d           ;add 25      
+         LDWA    num,d            ;if (num > limit)
+         STWA    num,d 
+while:   LDBA    num,d
+          
+if:      CPWA    limit,i
+         BRLT    else
+         STRO    msg1,d 
+else:    STRO    msg2,d
+endIf:   ADDSP    2,i
+         STBA    num,d
+         BR      while 
+
+msg1:    .ASCII  "higher\x00"
+
+msg2:    .ASCII  "\n\x00" 
+
+endWh:   STOP
+         .END
