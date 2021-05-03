@@ -1,0 +1,27 @@
+BR       main
+limit:   .EQUATE 75          ;constant
+number:  .EQUATE 0           ;local variable
+msg1:    .ASCII "higher\x00"
+
+main:    SUBSP   2,i         ;push #number
+         DECI    number,s    ;input number
+         LDWA    number,s
+         BREQ    endWh       ;end if 0
+         ADDA    25,i        ;add 25
+         STBA    number,s    
+         CPWA    limit,i     ;check if over 75
+         BRGT    if          ;branch if so
+         STWA    number,s
+         DECO    number,s    ;output number
+         LDBA    '\n',i 
+         STBA    charOut,d   ;output a new line
+         BR      main        ;loop
+
+if:      STRO    msg1,d      
+         ldba    '\n',i         
+         stba    charOut,d   ;output a new line
+         BR      main        ;loop
+         
+endWh:   ADDSP   2,i         ;pop #number
+         STOP
+         .END
